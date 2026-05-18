@@ -47,6 +47,7 @@
 
 .hero__headline .word {
   display: inline-block;
+  margin-right: 0.25em;
 }
 
 .hero__headline .word:nth-child(1) {
