@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import FloatingShapes from './FloatingShapes'
@@ -6,20 +6,50 @@ import './Portfolio.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const posts = [
-  'DYHroIeNaSu',
-  'DYF2rJapwLc',
-  'DYF2Wr1hynT',
-  'DYF5L1zx8O_',
-  'DX2gGg_RIGk',
-  'DXkP52FETRq',
+// Curated pool of Instagram post IDs — site picks 6 at random on each page load.
+// To add a new post, paste the ID from instagram.com/p/<ID>/ into this array.
+const POST_POOL = [
+  'DYDNCeUt7Va',
+  'DYHmucSgii3',
+  'DX-Dj2fkSGh',
+  'DX-IX-dkzQ2',
+  'DXwodaSNKtP',
+  'DXuDAjDj_ti',
+  'DXuqNPKD3ty',
+  'DXu0jB1JB-q',
+  'DXj3sqfDUFq',
+  'DXj1usRjRsz',
+  'DXjvDRaDZ0u',
+  'DXPwrdShkwf',
+  'DXPRy4zBvh2',
+  'DXeTDTWBMCu',
+  'DXaD3K4h6Cy',
+  'DW9uGXkTK0y',
+  'DXU9uSMhBl0',
+  'DXXibgEDeIC',
+  'DXPEBzZkayk',
+  'DXbuPaBDIJA',
+  'DXcwJY3CV-i',
 ]
+
+const PICK_COUNT = 6
+
+function pickRandom(arr, n) {
+  const copy = [...arr]
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy.slice(0, n)
+}
 
 export default function Portfolio() {
   const sectionRef = useRef(null)
+  // Lazy initializer — shuffle runs exactly once per mount, not on every render
+  const [posts] = useState(() => pickRandom(POST_POOL, PICK_COUNT))
 
   useEffect(() => {
-    // Load Instagram embed script once
+    // Load Instagram embed script once, then process the blockquotes
     if (!document.getElementById('ig-embed-script')) {
       const script = document.createElement('script')
       script.id = 'ig-embed-script'
