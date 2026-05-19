@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import ThemeToggle from './ThemeToggle'
 import './Navbar.css'
 
 export default function Navbar() {
@@ -8,19 +9,24 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.from(navRef.current, {
-        y: -80,
-        opacity: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        delay: 0.2,
-      })
-    }
+    const ctx = gsap.context(() => {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.from(navRef.current, {
+          y: -80,
+          opacity: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          delay: 0.2,
+        })
+      }
+    }, navRef)
 
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      ctx.revert()
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   useEffect(() => {
@@ -62,15 +68,18 @@ export default function Navbar() {
         </li>
       </ul>
 
-      <button
-        className={`navbar__burger${menuOpen ? ' navbar__burger--open' : ''}`}
-        onClick={() => setMenuOpen(o => !o)}
-        aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-        aria-expanded={menuOpen}
-        aria-controls="navbar-menu"
-      >
-        <span /><span /><span />
-      </button>
+      <div className="navbar__controls">
+        <ThemeToggle />
+        <button
+          className={`navbar__burger${menuOpen ? ' navbar__burger--open' : ''}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={menuOpen}
+          aria-controls="navbar-menu"
+        >
+          <span /><span /><span />
+        </button>
+      </div>
     </nav>
   )
 }

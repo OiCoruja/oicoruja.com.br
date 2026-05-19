@@ -20,6 +20,29 @@
 
   --font-display: 'BringboldNineties', Georgia, serif;
   --font-body:    'DM Sans', sans-serif;
+
+  /* Semantic surface/text tokens — overridden by [data-theme="dark"] */
+  --bg:         var(--white);
+  --bg-alt:     var(--gray-light);
+  --bg-deep:    var(--black);
+  --text:       var(--black);
+  --text-muted: #4f4f60;
+  --border:     var(--gray-light);
+  --nav-bg:     rgba(250, 250, 250, 0.92);
+  --nav-shadow: rgba(0, 0, 0, 0.06);
+  --shadow-card: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --bg:         #131214;
+  --bg-alt:     #1c1b1f;
+  --bg-deep:    #0a090b;
+  --text:       var(--white);
+  --text-muted: #a8a8b8;
+  --border:     rgba(255, 255, 255, 0.10);
+  --nav-bg:     rgba(19, 18, 20, 0.85);
+  --nav-shadow: rgba(0, 0, 0, 0.5);
+  --shadow-card: rgba(0, 0, 0, 0.5);
 }
 
 *, *::before, *::after {
@@ -34,10 +57,11 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--white);
-  color: var(--black);
+  background: var(--bg);
+  color: var(--text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 img, svg {

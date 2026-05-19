@@ -18,12 +18,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--gray-light);
+  background: var(--bg-alt);
   border-radius: 100px;
   padding: 0.45rem 1rem;
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--black);
+  color: var(--text);
   margin-bottom: 2rem;
 }
 
@@ -41,7 +41,7 @@
   font-size: clamp(3.2rem, 8vw, 7rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--text);
   margin-bottom: 1.8rem;
 }
 
@@ -58,7 +58,7 @@
 .hero__sub {
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 400;
-  color: #4a4a5a;
+  color: var(--text-muted);
   line-height: 1.65;
   max-width: 540px;
   margin-bottom: 2.5rem;
@@ -96,8 +96,8 @@
 
 .btn--ghost {
   background: transparent;
-  color: var(--black);
-  border: 2px solid var(--gray-light);
+  color: var(--text);
+  border: 2px solid var(--border);
 }
 
 .btn--ghost:hover {
@@ -148,6 +148,10 @@
   pointer-events: none;
   transform-origin: center bottom;
   filter: drop-shadow(0 24px 48px rgba(99, 65, 206, 0.18));
+}
+
+[data-theme="dark"] .hero__mascot {
+  filter: drop-shadow(0 24px 48px rgba(245, 154, 141, 0.22));
 }
 
 /* ── Decorative shapes ────────────────── */
@@ -206,6 +210,10 @@
     opacity: 1;
     margin-top: 0.5rem;
     filter: drop-shadow(0 12px 24px rgba(99, 65, 206, 0.2));
+  }
+
+  [data-theme="dark"] .hero__mascot {
+    filter: drop-shadow(0 12px 24px rgba(245, 154, 141, 0.22));
   }
 
   .hero__inner {

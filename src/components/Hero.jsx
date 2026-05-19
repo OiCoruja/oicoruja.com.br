@@ -1,9 +1,27 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import './Hero.css'
 
 function Shape({ className }) {
   return <div className={`hero-shape ${className}`} aria-hidden="true" />
+}
+
+function readTheme() {
+  if (typeof document === 'undefined') return 'light'
+  return document.documentElement.getAttribute('data-theme') || 'light'
+}
+
+function useDataTheme() {
+  const [theme, setTheme] = useState(readTheme)
+  useEffect(() => {
+    const observer = new MutationObserver(() => setTheme(readTheme()))
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    })
+    return () => observer.disconnect()
+  }, [])
+  return theme
 }
 
 export default function Hero() {
@@ -13,6 +31,8 @@ export default function Hero() {
   const ctaRef = useRef(null)
   const badgeRef = useRef(null)
   const mascotRef = useRef(null)
+  const theme = useDataTheme()
+  const mascotSrc = theme === 'dark' ? '/mascot-salmon.png' : '/mascot.png'
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -136,7 +156,7 @@ export default function Hero() {
 
       <img
         ref={mascotRef}
-        src="/mascot.png"
+        src={mascotSrc}
         alt="Corujinha — mascote da Coruja Comunicação"
         className="hero__mascot"
         width="1000"

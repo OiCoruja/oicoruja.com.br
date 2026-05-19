@@ -1,7 +1,7 @@
 .portfolio {
   position: relative;
   padding: 7rem 3rem;
-  background: var(--gray-light);
+  background: var(--bg-alt);
 }
 
 .portfolio__inner {
@@ -32,7 +32,7 @@
 
 .portfolio-embed:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 48px var(--shadow-card);
 }
 
 /* Let Instagram's embed fill the wrapper */

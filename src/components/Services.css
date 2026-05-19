@@ -1,7 +1,7 @@
 .services {
   position: relative;
   padding: 7rem 3rem;
-  background: var(--white);
+  background: var(--bg);
 }
 
 .services__inner {
@@ -27,7 +27,7 @@
   font-size: clamp(2rem, 4.5vw, 3.2rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -38,7 +38,7 @@
 
 .section-sub {
   font-size: 1.05rem;
-  color: #5a5a6e;
+  color: var(--text-muted);
   line-height: 1.65;
   max-width: 520px;
 }
@@ -65,7 +65,18 @@
 
 .service-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 48px var(--shadow-card);
+}
+
+/* Cards keep their brand colors in dark mode — a hairline outline keeps the
+   near-black "Consultoria" card from blending into the near-black page bg. */
+[data-theme="dark"] .service-card {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .service-card:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10),
+              0 20px 48px var(--shadow-card);
 }
 
 .service-card__icon {
