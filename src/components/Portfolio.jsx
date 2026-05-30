@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { loadScrollTrigger } from '../scrollTrigger'
 import FloatingShapes from './FloatingShapes'
 import './Portfolio.css'
 
@@ -80,38 +81,44 @@ export default function Portfolio() {
     io.observe(sectionRef.current)
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
-      return () => io.disconnect()
+
+    let ctx
+    let cancelled = false
+
+    if (!prefersReducedMotion) {
+      loadScrollTrigger().then(() => {
+        if (cancelled) return
+        ctx = gsap.context(() => {
+          gsap.from('.portfolio__header', {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '.portfolio__header',
+              start: 'top 85%',
+            },
+          })
+
+          gsap.from('.portfolio-embed', {
+            y: 60,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '.portfolio__grid',
+              start: 'top 80%',
+            },
+          })
+        }, sectionRef)
+      })
     }
 
-    const ctx = gsap.context(() => {
-      gsap.from('.portfolio__header', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.portfolio__header',
-          start: 'top 85%',
-        },
-      })
-
-      gsap.from('.portfolio-embed', {
-        y: 60,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.portfolio__grid',
-          start: 'top 80%',
-        },
-      })
-    }, sectionRef)
-
     return () => {
+      cancelled = true
       io.disconnect()
-      ctx.revert()
+      if (ctx) ctx.revert()
     }
   }, [])
 

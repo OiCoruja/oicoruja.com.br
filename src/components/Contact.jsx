@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { loadScrollTrigger } from '../scrollTrigger'
 import FloatingShapes from './FloatingShapes'
 import './Contact.css'
 
@@ -72,40 +73,49 @@ export default function Contact() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const ctx = gsap.context(() => {
-      gsap.from('.contact__content > *', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-        },
-      })
+    let ctx
+    let cancelled = false
 
-      // Floating blobs
-      gsap.to('.contact__blob--1', {
-        x: 20,
-        y: -20,
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      })
-      gsap.to('.contact__blob--2', {
-        x: -15,
-        y: 15,
-        duration: 3.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 0.5,
-      })
-    }, sectionRef)
+    loadScrollTrigger().then(() => {
+      if (cancelled) return
+      ctx = gsap.context(() => {
+        gsap.from('.contact__content > *', {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+          },
+        })
 
-    return () => ctx.revert()
+        // Floating blobs
+        gsap.to('.contact__blob--1', {
+          x: 20,
+          y: -20,
+          duration: 4,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        })
+        gsap.to('.contact__blob--2', {
+          x: -15,
+          y: 15,
+          duration: 3.5,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          delay: 0.5,
+        })
+      }, sectionRef)
+    })
+
+    return () => {
+      cancelled = true
+      if (ctx) ctx.revert()
+    }
   }, [])
 
   return (
