@@ -1,10 +1,15 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import FloatingShapes from './FloatingShapes'
 import './Services.css'
 
-gsap.registerPlugin(ScrollTrigger)
+const SERVICES_SHAPES = [
+  { type: 'circle',  color: 'purple',      size: '340px', top: '-80px',  right: '-60px', opacity: 0.07, speed: 4.0, delay: 0,   yDist: 20 },
+  { type: 'square',  color: 'salmon',      size: '100px', bottom: '10%', left: '3%',     opacity: 0.15, speed: 3.2, delay: 0.3, yDist: 14, rotAmt: 12 },
+  { type: 'diamond', color: 'purple-dark', size: '70px',  top: '20%',    right: '5%',    opacity: 0.12, speed: 3.8, delay: 0.6, yDist: 18 },
+  { type: 'circle',  color: 'salmon',      size: '60px',  bottom: '20%', right: '18%',   opacity: 0.13, speed: 2.9, delay: 0.2, yDist: 10 },
+  { type: 'square',  color: 'purple',      size: '50px',  top: '15%',    left: '8%',     opacity: 0.10, speed: 3.5, delay: 0.8, yDist: 12, rotAmt: -8 },
+]
 
 const services = [
   {
@@ -87,13 +92,7 @@ export default function Services() {
 
   return (
     <section ref={sectionRef} className="services" id="servicos">
-      <FloatingShapes shapes={[
-        { type: 'circle',  color: 'purple',      size: '340px', top: '-80px',  right: '-60px',  opacity: 0.07, speed: 4.0, delay: 0,   yDist: 20 },
-        { type: 'square',  color: 'salmon',      size: '100px', bottom: '10%', left: '3%',      opacity: 0.15, speed: 3.2, delay: 0.3, yDist: 14, rotAmt: 12 },
-        { type: 'diamond', color: 'purple-dark', size: '70px',  top: '20%',    right: '5%',     opacity: 0.12, speed: 3.8, delay: 0.6, yDist: 18 },
-        { type: 'circle',  color: 'salmon',      size: '60px',  bottom: '20%', right: '18%',    opacity: 0.13, speed: 2.9, delay: 0.2, yDist: 10 },
-        { type: 'square',  color: 'purple',      size: '50px',  top: '15%',    left: '8%',      opacity: 0.10, speed: 3.5, delay: 0.8, yDist: 12, rotAmt: -8 },
-      ]} />
+      <FloatingShapes shapes={SERVICES_SHAPES} />
       <div className="services__inner">
         <div className="services__header">
           <span className="section-label">O que fazemos</span>

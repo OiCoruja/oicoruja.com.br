@@ -22,7 +22,7 @@ export default function Navbar() {
     }, navRef)
 
     const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
       ctx.revert()
       window.removeEventListener('scroll', onScroll)

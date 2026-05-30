@@ -1,32 +1,49 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import FloatingShapes from './FloatingShapes'
 import './Contact.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 // Web3Forms access key — public by design (ships in the bundle).
 // Get it from web3forms.com after verifying your email.
 const WEB3FORMS_ACCESS_KEY = '59fb0cc6-ce80-435e-aa17-431df3c7b2b7'
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit'
 
+const CONTACT_SHAPES = [
+  { type: 'square',  color: 'white',  size: '80px', top: '12%',    left: '6%',   opacity: 0.08, speed: 3.5, delay: 0,   yDist: 14, rotAmt: 10 },
+  { type: 'diamond', color: 'salmon', size: '70px', bottom: '18%', right: '8%',  opacity: 0.20, speed: 4.0, delay: 0.5, yDist: 16 },
+  { type: 'circle',  color: 'white',  size: '50px', top: '55%',    left: '3%',   opacity: 0.08, speed: 3.0, delay: 0.3, yDist: 12 },
+  { type: 'square',  color: 'salmon', size: '45px', top: '20%',    right: '12%', opacity: 0.18, speed: 2.8, delay: 0.7, yDist: 10, rotAmt: -8 },
+  { type: 'diamond', color: 'white',  size: '55px', bottom: '10%', left: '15%',  opacity: 0.08, speed: 3.8, delay: 0.2, yDist: 14, rotAmt: 6 },
+]
+
 export default function Contact() {
   const sectionRef = useRef(null)
   const [status, setStatus] = useState('idle') // idle | submitting | success | error
 
-  // Lazy-load Web3Forms' client script after the form is in the DOM.
-  // It renders the hCaptcha widget inside the `.h-captcha[data-captcha="true"]`
-  // div and loads hCaptcha with ?recaptchacompat=off, which is what makes
-  // free-tier validation work (no g-recaptcha-response field).
+  // Defer Web3Forms' client script until the section is near the viewport.
+  // The script renders the hCaptcha widget inside `.h-captcha[data-captcha="true"]`
+  // and loads hCaptcha with ?recaptchacompat=off — required for free-tier
+  // validation (no g-recaptcha-response field).
   useEffect(() => {
-    if (document.getElementById('w3f-client-script')) return
-    const script = document.createElement('script')
-    script.id = 'w3f-client-script'
-    script.src = 'https://web3forms.com/client/script.js'
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
+    const loadW3F = () => {
+      if (document.getElementById('w3f-client-script')) return
+      const script = document.createElement('script')
+      script.id = 'w3f-client-script'
+      script.src = 'https://web3forms.com/client/script.js'
+      script.async = true
+      script.defer = true
+      document.body.appendChild(script)
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) {
+        loadW3F()
+        io.disconnect()
+      }
+    }, { rootMargin: '400px' })
+    io.observe(sectionRef.current)
+
+    return () => io.disconnect()
   }, [])
 
   async function handleSubmit(e) {
@@ -95,13 +112,7 @@ export default function Contact() {
     <section ref={sectionRef} className="contact" id="contato">
       <div className="contact__blob contact__blob--1" aria-hidden="true" />
       <div className="contact__blob contact__blob--2" aria-hidden="true" />
-      <FloatingShapes shapes={[
-        { type: 'square',  color: 'white', size: '80px',  top: '12%',    left: '6%',      opacity: 0.08, speed: 3.5, delay: 0,   yDist: 14, rotAmt: 10 },
-        { type: 'diamond', color: 'salmon', size: '70px', bottom: '18%', right: '8%',     opacity: 0.20, speed: 4.0, delay: 0.5, yDist: 16 },
-        { type: 'circle',  color: 'white', size: '50px',  top: '55%',    left: '3%',      opacity: 0.08, speed: 3.0, delay: 0.3, yDist: 12 },
-        { type: 'square',  color: 'salmon', size: '45px', top: '20%',    right: '12%',    opacity: 0.18, speed: 2.8, delay: 0.7, yDist: 10, rotAmt: -8 },
-        { type: 'diamond', color: 'white', size: '55px',  bottom: '10%', left: '15%',     opacity: 0.08, speed: 3.8, delay: 0.2, yDist: 14, rotAmt: 6 },
-      ]} />
+      <FloatingShapes shapes={CONTACT_SHAPES} />
 
       <div className="contact__content">
         <span className="section-label contact__label">Contato</span>

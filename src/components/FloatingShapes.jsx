@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './FloatingShapes.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 // Each shape: { type, color, size, top, left, right, bottom, rotate, opacity, speed, delay }
 export default function FloatingShapes({ shapes, trigger }) {
