@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { loadScrollTrigger } from '../scrollTrigger'
 import FloatingShapes from './FloatingShapes'
 import './Services.css'
 
@@ -62,32 +63,41 @@ export default function Services() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const ctx = gsap.context(() => {
-      gsap.from('.services__header', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.services__header',
-          start: 'top 85%',
-        },
-      })
+    let ctx
+    let cancelled = false
 
-      gsap.from('.service-card', {
-        y: 60,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.services__grid',
-          start: 'top 80%',
-        },
-      })
-    }, sectionRef)
+    loadScrollTrigger().then(() => {
+      if (cancelled) return
+      ctx = gsap.context(() => {
+        gsap.from('.services__header', {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.services__header',
+            start: 'top 85%',
+          },
+        })
 
-    return () => ctx.revert()
+        gsap.from('.service-card', {
+          y: 60,
+          opacity: 0,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.services__grid',
+            start: 'top 80%',
+          },
+        })
+      }, sectionRef)
+    })
+
+    return () => {
+      cancelled = true
+      if (ctx) ctx.revert()
+    }
   }, [])
 
   return (

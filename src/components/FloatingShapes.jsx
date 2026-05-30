@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { loadScrollTrigger } from '../scrollTrigger'
 import './FloatingShapes.css'
 
 // Each shape: { type, color, size, top, left, right, bottom, rotate, opacity, speed, delay }
@@ -7,53 +8,62 @@ export default function FloatingShapes({ shapes, trigger }) {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let ctx
+    let cancelled = false
 
-    const ctx = gsap.context(() => {
-      const els = containerRef.current.querySelectorAll('.fs')
+    loadScrollTrigger().then(() => {
+      if (cancelled) return
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-      els.forEach((el) => {
-        const speed   = parseFloat(el.dataset.speed)   || 3.5
-        const delay   = parseFloat(el.dataset.delay)   || 0
-        const yDist   = parseFloat(el.dataset.ydist)   || 16
-        const xDist   = parseFloat(el.dataset.xdist)   || 0
-        const rotAmt  = parseFloat(el.dataset.rotamt)  || 0
-        const targetOpacity = parseFloat(el.dataset.opacity) || 0.18
+      ctx = gsap.context(() => {
+        const els = containerRef.current.querySelectorAll('.fs')
 
-        if (prefersReducedMotion) {
-          gsap.set(el, { opacity: targetOpacity })
-          return
-        }
+        els.forEach((el) => {
+          const speed   = parseFloat(el.dataset.speed)   || 3.5
+          const delay   = parseFloat(el.dataset.delay)   || 0
+          const yDist   = parseFloat(el.dataset.ydist)   || 16
+          const xDist   = parseFloat(el.dataset.xdist)   || 0
+          const rotAmt  = parseFloat(el.dataset.rotamt)  || 0
+          const targetOpacity = parseFloat(el.dataset.opacity) || 0.18
 
-        gsap.fromTo(el,
-          { opacity: 0, scale: 0.7 },
-          {
-            opacity: targetOpacity,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: trigger || containerRef.current,
-              start: 'top 85%',
-            },
-            delay: delay,
+          if (prefersReducedMotion) {
+            gsap.set(el, { opacity: targetOpacity })
+            return
           }
-        )
 
-        gsap.to(el, {
-          y: -yDist,
-          x: xDist,
-          rotate: `+=${rotAmt}`,
-          duration: speed,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          delay: delay,
+          gsap.fromTo(el,
+            { opacity: 0, scale: 0.7 },
+            {
+              opacity: targetOpacity,
+              scale: 1,
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: trigger || containerRef.current,
+                start: 'top 85%',
+              },
+              delay: delay,
+            }
+          )
+
+          gsap.to(el, {
+            y: -yDist,
+            x: xDist,
+            rotate: `+=${rotAmt}`,
+            duration: speed,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: delay,
+          })
         })
-      })
-    }, containerRef)
+      }, containerRef)
+    })
 
-    return () => ctx.revert()
+    return () => {
+      cancelled = true
+      if (ctx) ctx.revert()
+    }
   }, [trigger])
 
   return (
