@@ -116,5 +116,14 @@
     </noscript>
 
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Google Analytics — async, non-blocking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_MEASUREMENT_ID%"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', '%VITE_GA_MEASUREMENT_ID%');
+    </script>
   </body>
 </html>
