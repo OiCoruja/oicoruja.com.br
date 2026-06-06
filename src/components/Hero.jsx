@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import './Hero.css'
 
+const HEADLINE_WORDS = ['Comunicação', 'com', 'personalidade.']
+
 function Shape({ className }) {
   return <div className={`hero-shape ${className}`} aria-hidden="true" />
 }
@@ -112,8 +114,6 @@ export default function Hero() {
     return () => ctx.revert()
   }, [])
 
-  const headline = ['Comunicação', 'com', 'personalidade.']
-
   return (
     <section ref={sectionRef} className="hero" id="inicio">
       <Shape className="hero-shape--circle hero-shape--purple" />
@@ -126,7 +126,7 @@ export default function Hero() {
         </div>
 
         <h1 ref={headlineRef} className="hero__headline">
-          {headline.map((word, i) => (
+          {HEADLINE_WORDS.map((word, i) => (
             <span key={i} className="word">
               {word}{' '}
             </span>
@@ -162,7 +162,7 @@ export default function Hero() {
         width="1000"
         height="1012"
         loading="eager"
-        fetchpriority="high"
+        fetchPriority="high"
       />
 
       <div className="hero__scroll-hint" aria-hidden="true">

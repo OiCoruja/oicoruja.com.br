@@ -3,6 +3,14 @@ import gsap from 'gsap'
 import ThemeToggle from './ThemeToggle'
 import './Navbar.css'
 
+const LINKS = [
+  { label: 'Sobre', href: '#sobre' },
+  { label: 'Serviços', href: '#servicos' },
+  { label: 'Portfólio', href: '#portfolio' },
+  { label: 'Equipe', href: '#equipe' },
+  { label: 'Contato', href: '#contato' },
+]
+
 export default function Navbar() {
   const navRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -38,14 +46,6 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', onKey)
   }, [menuOpen])
 
-  const links = [
-    { label: 'Sobre', href: '#sobre' },
-    { label: 'Serviços', href: '#servicos' },
-    { label: 'Portfólio', href: '#portfolio' },
-    { label: 'Equipe', href: '#equipe' },
-    { label: 'Contato', href: '#contato' },
-  ]
-
   return (
     <nav ref={navRef} className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
       <a href="#" className="navbar__logo">coruja</a>
@@ -54,7 +54,7 @@ export default function Navbar() {
         id="navbar-menu"
         className={`navbar__links${menuOpen ? ' navbar__links--open' : ''}`}
       >
-        {links.map(({ label, href }) => (
+        {LINKS.map(({ label, href }) => (
           <li key={href}>
             <a href={href} onClick={() => setMenuOpen(false)}>{label}</a>
           </li>
