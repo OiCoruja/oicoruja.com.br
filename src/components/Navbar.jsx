@@ -39,8 +39,10 @@ export default function Navbar() {
   }, [menuOpen])
 
   const links = [
+    { label: 'Sobre', href: '#sobre' },
     { label: 'Serviços', href: '#servicos' },
     { label: 'Portfólio', href: '#portfolio' },
+    { label: 'Equipe', href: '#equipe' },
     { label: 'Contato', href: '#contato' },
   ]
 

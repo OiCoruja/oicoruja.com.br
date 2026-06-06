@@ -134,8 +134,8 @@ export default function Hero() {
         </h1>
 
         <p ref={subRef} className="hero__sub">
-          A Coruja cuida das redes sociais e da publicidade da sua empresa
-          para que você foque no que realmente importa.
+          A coruja enxerga o que passa despercebido. Sua marca também merece
+          esse olhar.
         </p>
 
         <div ref={ctaRef} className="hero__actions">
