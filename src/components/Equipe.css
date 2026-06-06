@@ -37,11 +37,11 @@
   border-radius: 24px;
   padding: 2.4rem;
   border: 1px solid var(--border);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: translate 0.3s ease, box-shadow 0.3s ease;
 }
 
 .equipe-card:hover {
-  transform: translateY(-4px);
+  translate: 0 -4px;
   box-shadow: 0 20px 48px var(--shadow-card);
 }
 

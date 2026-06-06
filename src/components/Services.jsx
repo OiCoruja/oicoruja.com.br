@@ -12,14 +12,47 @@ const SERVICES_SHAPES = [
   { type: 'square',  color: 'purple',      size: '50px',  top: '15%',    left: '8%',     opacity: 0.10, speed: 3.5, delay: 0.8, yDist: 12, rotAmt: -8 },
 ]
 
-const services = [
+const featuredServices = [
+  {
+    icon: '📺',
+    title: 'Canal Interno e TV Corporativa',
+    desc: (
+      <>
+        <p>
+          Soluções completas de comunicação digital que integram software,
+          hardware e conteúdo.
+        </p>
+        <ul>
+          <li>Canal interno para empresas e estabelecimentos comerciais</li>
+          <li>Divulgação de produtos e serviços</li>
+          <li>Menuboard digital</li>
+        </ul>
+        <p>
+          Mantenha clientes e colaboradores informados de forma moderna,
+          dinâmica e profissional.
+        </p>
+      </>
+    ),
+    color: 'var(--black)',
+    textColor: 'var(--white)',
+  },
   {
     icon: '📱',
     title: 'Gestão de Redes Sociais',
-    desc: 'Planejamento, criação e publicação de conteúdo no Instagram, Facebook, TikTok e LinkedIn com estratégia e consistência.',
+    desc: (
+      <p>
+        Planejamento, criação e gerenciamento de conteúdo para Instagram,
+        Facebook, TikTok e LinkedIn, com estratégias personalizadas para
+        fortalecer sua marca, aumentar o engajamento e gerar resultados de
+        forma consistente.
+      </p>
+    ),
     color: 'var(--purple)',
     textColor: 'var(--white)',
   },
+]
+
+const services = [
   {
     icon: '🎨',
     title: 'Criação de Conteúdo',
@@ -48,13 +81,6 @@ const services = [
     color: 'var(--green)',
     textColor: 'var(--black)',
   },
-  {
-    icon: '💡',
-    title: 'Consultoria & Branding',
-    desc: 'Análise profunda do posicionamento da sua marca e orientação estratégica para tomadas de decisão mais assertivas.',
-    color: 'var(--black)',
-    textColor: 'var(--white)',
-  },
 ]
 
 export default function Services() {
@@ -77,6 +103,18 @@ export default function Services() {
           scrollTrigger: {
             trigger: '.services__header',
             start: 'top 85%',
+          },
+        })
+
+        gsap.from('.feature-card', {
+          y: 60,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.services__featured',
+            start: 'top 80%',
           },
         })
 
@@ -116,6 +154,22 @@ export default function Services() {
           </p>
         </div>
 
+        <div className="services__featured">
+          {featuredServices.map(({ icon, title, desc, color, textColor }) => (
+            <article
+              key={title}
+              className="feature-card"
+              style={{ '--card-bg': color, '--card-text': textColor }}
+            >
+              <div className="feature-card__header">
+                <span className="feature-card__icon">{icon}</span>
+                <h3 className="feature-card__title">{title}</h3>
+              </div>
+              <div className="feature-card__desc">{desc}</div>
+            </article>
+          ))}
+        </div>
+
         <div className="services__grid">
           {services.map(({ icon, title, desc, color, textColor }) => (
             <article
@@ -123,9 +177,11 @@ export default function Services() {
               className="service-card"
               style={{ '--card-bg': color, '--card-text': textColor }}
             >
-              <span className="service-card__icon">{icon}</span>
-              <h3 className="service-card__title">{title}</h3>
-              <p className="service-card__desc">{desc}</p>
+              <div className="service-card__header">
+                <span className="service-card__icon">{icon}</span>
+                <h3 className="service-card__title">{title}</h3>
+              </div>
+              <div className="service-card__desc">{desc}</div>
             </article>
           ))}
         </div>

@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Playwright-cli session artifacts
+.playwright-cli/
+
 # Environment files
 .env.production
 .env.local

@@ -47,10 +47,97 @@
   margin-bottom: 3.5rem;
 }
 
-/* ── Grid ─────────────────────────────── */
+/* ── Featured (Canal + Gestão) ────────── */
+.services__featured {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-radius: 24px;
+  padding: 2.6rem;
+  transition: translate 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  translate: 0 -4px;
+  box-shadow: 0 24px 56px var(--shadow-card);
+}
+
+[data-theme="dark"] .feature-card {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .feature-card:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10),
+              0 24px 56px var(--shadow-card);
+}
+
+.feature-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.feature-card__icon {
+  font-size: 2.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.feature-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.feature-card__desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.92;
+}
+
+.feature-card__desc p + p,
+.feature-card__desc p + ul,
+.feature-card__desc ul + p {
+  margin-top: 0.75rem;
+}
+
+.feature-card__desc ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.feature-card__desc li {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.feature-card__desc li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* ── Grid (remaining 4) ───────────────── */
 .services__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
   gap: 1.25rem;
 }
 
@@ -60,11 +147,11 @@
   color: var(--card-text);
   border-radius: 20px;
   padding: 2.2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: translate 0.3s ease, box-shadow 0.3s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
+  translate: 0 -6px;
   box-shadow: 0 20px 48px var(--shadow-card);
 }
 
@@ -79,17 +166,23 @@
               0 20px 48px var(--shadow-card);
 }
 
+.service-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
 .service-card__icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 1.2rem;
+  font-size: 1.9rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .service-card__title {
   font-family: var(--font-display);
   font-size: 1.3rem;
   line-height: 1.25;
-  margin-bottom: 0.75rem;
 }
 
 .service-card__desc {
@@ -98,9 +191,39 @@
   opacity: 0.85;
 }
 
-@media (max-width: 1024px) {
-  .services__grid {
-    grid-template-columns: repeat(2, 1fr);
+.service-card__desc p + p,
+.service-card__desc p + ul,
+.service-card__desc ul + p {
+  margin-top: 0.75rem;
+}
+
+.service-card__desc ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.service-card__desc li {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.service-card__desc li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .services__featured {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -119,5 +242,9 @@
 
   .service-card {
     padding: 1.75rem;
+  }
+
+  .feature-card {
+    padding: 1.9rem;
   }
 }
