@@ -124,6 +124,19 @@ O `nginx.conf` incluso configura:
 
 ## Histórico de Versões
 
+### [v1.2.0](https://github.com/OiCoruja/oicoruja.com.br/releases/tag/v1.2.0) — 2026-06-06
+- Nova seção **Sobre** — história da marca e propósito da Coruja
+- Nova seção **Equipe** — perfis de Ana Clara, Bianca e Filipe com avatares de iniciais
+- Rework da seção **Serviços** — Canal Interno e TV Corporativa + Gestão de Redes Sociais como destaques lado a lado; grid 2×2 para os demais
+- Substituição de *Consultoria & Branding* por *Canal Interno e TV Corporativa*
+- Hero compactado para uma frase curta evocando a metáfora da coruja
+- Code-split de Portfolio e Contact via `React.lazy` — bundle inicial reduzido em ~14 kB
+- Tipografia: migração para fonte variável DM Sans no range 400–700 (corrige peso 600 que estava sintetizado pelo browser)
+- Correção: animações GSAP de cards travavam no meio da entrada por conflito com `transition: transform` no CSS — `transform` agora é exclusivo do GSAP, hover usa a propriedade `translate`
+- Correção: `fetchPriority` do mascote agora reconhecido pelo React 19 (era `fetchpriority` minúsculo)
+- Schema.org e fallback `<noscript>` atualizados com a lista correta de serviços
+- Perf: arrays de configuração (`LINKS`, `HEADLINE_WORDS`) movidos para escopo de módulo
+
 ### [v1.1.0](https://github.com/OiCoruja/oicoruja.com.br/releases/tag/v1.1.0) — 2026-05-18
 - Modo escuro com alternador claro / escuro / sistema
 - Variante salmon do mascote para o tema escuro
